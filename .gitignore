@@ -12,7 +12,6 @@ build/
 .vscode/
 .vs/
 .idea/
-test_*.cpp
 *.pdb
 *.npz
 *.npy
