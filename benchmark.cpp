@@ -1,6 +1,4 @@
 #include <fstream>
-#include "body_models.hpp"
-#include "common.hpp"
 #include "smplx.hpp"
 
 void save_obj(const std::string &filename, const torch::Tensor &vertices,
@@ -59,13 +57,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     std::cout << "Using model path: " << path << std::endl;
+    auto start = std::chrono::high_resolution_clock::now();
     smplx::SMPL smpl(path.c_str(), device);
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration =
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+            .count();
+    std::cout << "Model loaded in " << duration << " ms!" << std::endl;
     smpl.eval();
     int batch_size = 1;
-    auto betas = -2 * torch::ones({batch_size, 10},
+    auto betas = -2 * torch::ones({batch_size, smpl.num_betas()},
                                   torch::TensorOptions().device(device));
     auto global_orient =
-        torch::ones({batch_size, 3}, torch::TensorOptions().device(device));
+        torch::zeros({batch_size, 3}, torch::TensorOptions().device(device));
     auto body_pose =
         torch::zeros({batch_size, 69}, torch::TensorOptions().device(device));
     auto transl =
@@ -75,10 +79,14 @@ int main(int argc, char *argv[]) {
     double fps =
         compute_fps(smpl, betas, global_orient, body_pose, transl, iterations);
 
-    std::cout << "FPS (forward pass, " << iterations << " iterations): " << fps
-              << std::endl;
+    std::cout << "FPS (forward pass, run " << iterations << " iterations) @"
+              << fps << " FPS" << std::endl;
 
-    // auto faces = smpl.faces();
-    // save_obj("output_path.obj", output.vertices.value().squeeze(0), faces);
+    auto output =
+        smpl.forward(smplx::betas(betas), smplx::global_orient(global_orient),
+                     smplx::body_pose(body_pose), smplx::transl(transl));
+
+    auto faces = smpl.faces();
+    save_obj("smpl_mesh.obj", output.vertices.value().squeeze(0), faces);
     return 0;
 }

@@ -5,9 +5,10 @@
 #include <string>
 #include <utility>
 #include "c10/core/ScalarType.h"
+#include "cnpy.h"
 #include "common.hpp"
-#include "json.hpp"
-#include "npyio.hpp"
+#include "converter.h"
+#include "lbs.hpp"
 #include "utils.hpp"
 #include "vertex_joint_selector.hpp"
 
@@ -139,9 +140,6 @@ class SMPL : public torch::nn::Module {
     internal::option vars_;
     torch::Device device_;
     Tensor faces_;
-    // io::npz_t data_struct_;
-    nlohmann::json data_struct_;
-
     Tensor shapedirs_;
     Tensor J_regressor_;
     Tensor posedirs_;

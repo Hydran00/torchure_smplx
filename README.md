@@ -6,7 +6,7 @@ Libtorch based C++ implementation of SMPL, SMPL-H, SMPL-X body models for high p
    ```bash
    git clone https://github.com/hydran00/torchure_smplx.git
    ```
-2. Set your torch path in the `CMakeLists.txt`:  
+2. Set your torch and CUDA paths in the `CMakeLists.txt`:  
    you can find it easily if you have pyTorch installed:
    ```bash
     python -c "import torch; print(torch.utils.cmake_prefix_path)"
@@ -15,6 +15,10 @@ Libtorch based C++ implementation of SMPL, SMPL-H, SMPL-X body models for high p
    ```bash
     set(Torch_DIR /home/user/.local/lib/python3.10/site-packages/torch/share/cmake/Torch)
     ```
+    For cuda, you can set the `CUDACXX` variable to the path of `nvcc`:
+   ```bash
+   export CUDACXX=/usr/local/cuda/bin/nvcc 
+   ```
 3. Build the project:
    ```bash
    cd torchure_smplx
