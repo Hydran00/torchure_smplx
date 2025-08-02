@@ -15,7 +15,7 @@ Libtorch based C++ implementation of SMPL, SMPL-H, SMPL-X body models for high p
    ```bash
     set(Torch_DIR /home/user/.local/lib/python3.10/site-packages/torch/share/cmake/Torch)
     ```
-    For cuda, you can set the `CUDACXX` variable to the path of `nvcc`:
+    To use CUDA, you just need to set the `CUDACXX` variable to the path of `nvcc`:
    ```bash
    export CUDACXX=/usr/local/cuda/bin/nvcc 
    ```
@@ -27,17 +27,17 @@ Libtorch based C++ implementation of SMPL, SMPL-H, SMPL-X body models for high p
    cmake ..
    make
    ```
-4. Download the SMPL and/or variants pkl model and convert them with `convert.py` script in a `.json` format:
+4. Download the SMPL and/or variants pkl model and convert them with `pkl2npz.py` script in a `.npz` format:
     ```bash
     # example for SMPL model
-    python3 convert.py smpl/models/basicModel_f_lbs_10_207_0_v1.0.0.pkl smpl/models/basicmodel_m_lbs_10_207_0_v1.0.0.pkl
+    python3 pkl2npz.py smpl/models/basicModel_f_lbs_10_207_0_v1.0.0.pkl smpl/models/basicmodel_m_lbs_10_207_0_v1.0.0.pkl
     ```
 5. Test the benchmark and save the SMPL mesh result:
    ```bash
-   ./benchmark <path to your json SMPL(x/h) model>
+   ./benchmark <path to your npz SMPL(x/h) model>
    ```
 # References
 The main code is a revised and improved version of the following repositories:  
 [smpl-cpp](https://github.com/Arktische/smpl-cpp)  
-[smplxpp](]https://github.com/sxyu/smplxpp)
+[smplxpp](https://github.com/sxyu/smplxpp)
 
