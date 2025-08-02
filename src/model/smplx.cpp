@@ -1,7 +1,7 @@
 #include "smplx.hpp"
 #include <memory>
 
-#define DEBUG true
+#define DEBUG false
 
 namespace smplx {
 
@@ -23,7 +23,7 @@ auto SMPL::construct(const char *model_path) -> void {
                                  e.what());
     }
 
-    std::cout << "Model loaded: " << model_path << std::endl;
+    std::cout << "SMPL model loaded: " << model_path << std::endl;
 
     auto load_required_tensor = [&](const std::string &name,
                                     torch::Dtype dtype) -> torch::Tensor {
@@ -39,10 +39,10 @@ auto SMPL::construct(const char *model_path) -> void {
     };
 
     try {
-        shapedirs_ = load_required_tensor("shapedirs", vars_.dtype);
+        shapedirs_ = load_required_tensor("shapedirs", torch::kFloat64);
         auto num_betas = shapedirs_.size(2);
 
-        faces_ = load_required_tensor("f", torch::kInt32);
+        faces_ = load_required_tensor("f", torch::kUInt32);
 
         if (vars_.age == "kid" && vars_.kid_template_path.has_value()) {
             ASSERT_MSG(std::filesystem::exists(vars_.kid_template_path.value()),
@@ -52,9 +52,9 @@ auto SMPL::construct(const char *model_path) -> void {
                 cnpy::npz_load(vars_.kid_template_path.value());
 
             torch::Tensor v_template_adult =
-                load_required_tensor("v_template", vars_.dtype);
+                load_required_tensor("v_template", torch::kFloat64);
             torch::Tensor v_template_kid =
-                cnpyToTensor(kid_data.at("v_template"), vars_.dtype)
+                cnpyToTensor(kid_data.at("v_template"), torch::kFloat64)
                     .to(device_);
 
             v_template_kid -= torch::mean(v_template_kid, 0);
@@ -91,18 +91,18 @@ auto SMPL::construct(const char *model_path) -> void {
                              torch::dtype(vars_.dtype).device(device_)));
         }
 
-        v_template_ = load_required_tensor("v_template", vars_.dtype);
+        v_template_ = load_required_tensor("v_template", torch::kFloat64);
         if (vars_.v_template.has_value())
             v_template_ = vars_.v_template.value().clone().to(device_);
 
-        J_regressor_ = load_required_tensor("J_regressor", vars_.dtype);
+        J_regressor_ = load_required_tensor("J_regressor", torch::kFloat64);
 
-        posedirs_ = load_required_tensor("posedirs", vars_.dtype);
+        posedirs_ = load_required_tensor("posedirs", torch::kFloat64);
         posedirs_ = posedirs_.reshape({-1, posedirs_.size(2)})
                         .transpose(0, 1)
                         .contiguous();
 
-        lbs_weights_ = load_required_tensor("weights", vars_.dtype);
+        lbs_weights_ = load_required_tensor("weights", torch::kFloat64);
 
         parents_ = torch::from_blob((void *)parents,
                                     {sizeof(parents) / sizeof(parents[0])},
@@ -123,6 +123,16 @@ auto SMPL::construct(const char *model_path) -> void {
         register_parameter("body_pose",
                            vars_.body_pose.value().requires_grad_(true));
         register_parameter("transl", vars_.transl.value().requires_grad_(true));
+
+        // print first cell of each tensor
+        if (DEBUG) {
+            std::cout << "shapedirs: " << shapedirs_[0] << "\n";
+            std::cout << "faces: " << faces_[0] << "\n";
+            std::cout << "v_template: " << v_template_[0] << "\n";
+            std::cout << "J_regressor: " << J_regressor_[0][0] << "\n";
+            std::cout << "posedirs: " << posedirs_[0][0] << "\n";
+            std::cout << "lbs_weights: " << lbs_weights_[0][0] << "\n";
+        }
 
     } catch (const std::exception &e) {
         std::cerr << "[ERROR] Model construction failed: " << e.what()

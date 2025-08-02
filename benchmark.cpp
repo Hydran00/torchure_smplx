@@ -65,15 +65,17 @@ int main(int argc, char *argv[]) {
             .count();
     std::cout << "Model loaded in " << duration << " ms!" << std::endl;
     smpl.eval();
+    std::cout << "Model has " << smpl.num_betas() << " betas, "
+              << smpl.NUM_JOINTS << " joints " << std::endl;
+
     int batch_size = 1;
-    auto betas = -2 * torch::ones({batch_size, smpl.num_betas()},
-                                  torch::TensorOptions().device(device));
+    auto betas =
+        -2 *
+        torch::ones({batch_size, smpl.num_betas()}, torch::kFloat64).to(device);
     auto global_orient =
-        torch::zeros({batch_size, 3}, torch::TensorOptions().device(device));
-    auto body_pose =
-        torch::zeros({batch_size, 69}, torch::TensorOptions().device(device));
-    auto transl =
-        torch::zeros({batch_size, 3}, torch::TensorOptions().device(device));
+        torch::zeros({batch_size, 3}, torch::kFloat64).to(device);
+    auto body_pose = torch::zeros({batch_size, 69}, torch::kFloat64).to(device);
+    auto transl = torch::zeros({batch_size, 3}, torch::kFloat64).to(device);
 
     int iterations = 1000;
     double fps =
