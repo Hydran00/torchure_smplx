@@ -17,7 +17,6 @@ build/
 *.npy
 *.pkl
 *.json
-*.txt
 *.zip
 data/models/smpl/*
 data/models/smplx/*
