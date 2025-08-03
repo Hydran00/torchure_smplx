@@ -7,7 +7,7 @@ A high-performance C++ implementation of the [SMPL](https://smpl.is.tue.mpg.de/)
 ## 🚀 Features
 
 - C++ implementation using LibTorch (PyTorch C++ API)
-- Supports SMPL, SMPL-H, and SMPL-X models
+- Supports SMPL, SMPL-H (TODO), and SMPL-X (TODO) models
 - GPU acceleration via CUDA (optional)
 - Suitable for real-time performance-critical applications
 - Fast model loading using NumPy `.npz` format (no Python runtime required)

@@ -7,6 +7,7 @@ void save_obj(const std::string &filename, const torch::Tensor &vertices,
     if (!obj_file.is_open()) {
         throw std::runtime_error("Could not open OBJ file for writing.");
     }
+    obj_file << std::fixed << std::setprecision(8);
 
     // Write vertices
     for (int64_t i = 0; i < vertices.size(0); ++i) {
