@@ -3,7 +3,7 @@ project(torchure_smplx)
 
 set(COMPILE_TESTS ON CACHE BOOL "Compile tests")
 # Torch
-set(Torch_DIR "/home/hydran00/.local/lib/python3.10/site-packages/torch/share/cmake/Torch")
+# set(Torch_DIR "/home/hydran00/.local/lib/python3.10/site-packages/torch/share/cmake/Torch")
 message(STATUS "Torch_DIR is set to: ${Torch_DIR}")
 
 find_package(Torch REQUIRED)
