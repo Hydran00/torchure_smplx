@@ -1,11 +1,9 @@
-#include <cnpy.h>
-#include <torch/torch.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "converter.hpp"
+#include "smplx.hpp"
 
 struct Expected {
     std::vector<int64_t> shape;
