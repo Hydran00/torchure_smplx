@@ -5,9 +5,8 @@
 #include <string>
 #include <utility>
 #include "c10/core/ScalarType.h"
-#include "cnpy.h"
 #include "common.hpp"
-#include "converter.h"
+#include "converter.hpp"
 #include "lbs.hpp"
 #include "utils.hpp"
 #include "vertex_joint_selector.hpp"

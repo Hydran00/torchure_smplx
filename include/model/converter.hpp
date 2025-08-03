@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+
 // Convert cnpy array to torch tensor with specified dtype
 inline torch::Tensor cnpyToTensor(const cnpy::NpyArray &arr,
                                   torch::Dtype dtype) {

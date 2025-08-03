@@ -1,11 +1,11 @@
+#include <cnpy.h>
 #include <torch/torch.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "cnpy.h"
-#include "converter.h"
+#include "converter.hpp"
 
 struct Expected {
     std::vector<int64_t> shape;

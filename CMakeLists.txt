@@ -3,15 +3,11 @@ project(torchure_smplx)
 
 # Torch
 set(Torch_DIR "/home/hydran00/.local/lib/python3.10/site-packages/torch/share/cmake/Torch")
+message(STATUS "Torch_DIR is set to: ${Torch_DIR}")
+
 find_package(Torch REQUIRED)
 
-# Zlib (used by cnpy)
-find_package(ZLIB REQUIRED)
-
-# ---- CNPY Library ----
-add_library(cnpy STATIC src/cnpy/cnpy.cpp)
-target_include_directories(cnpy PUBLIC include/cnpy)
-target_link_libraries(cnpy PUBLIC ZLIB::ZLIB)
+add_subdirectory(thirdparty/cnpy)
 
 # ---- SMPLX Library (Shared or Static) ----
 set(SMPLX_SOURCES
@@ -22,24 +18,20 @@ set(SMPLX_SOURCES
     src/model/vertex_joint_selector.cpp
 )
 
-add_library(smplx SHARED ${SMPLX_SOURCES})
-add_library(smplx_static STATIC ${SMPLX_SOURCES}) # Optional: Keep if you need both
-
+add_library(smplx STATIC ${SMPLX_SOURCES})
 target_include_directories(smplx PUBLIC include/model)
-target_link_libraries(smplx PUBLIC Torch::Torch ZLIB::ZLIB cnpy)
+target_link_libraries(smplx PUBLIC cnpy ${TORCH_LIBRARIES})
 target_compile_features(smplx PUBLIC cxx_std_17)
 
-target_include_directories(smplx_static PUBLIC include/model)
-target_link_libraries(smplx_static PUBLIC Torch::Torch ZLIB::ZLIB cnpy)
-target_compile_features(smplx_static PUBLIC cxx_std_17)
-
 # ---- Benchmark Executable ----
-add_executable(benchmark benchmark.cpp)
-target_link_libraries(benchmark PRIVATE smplx)
+# add_executable(benchmark benchmark.cpp)
+# target_link_libraries(benchmark PRIVATE smplx cnpy)
 
 # ---- Test Executable ----
 add_executable(test_cnpy_smpl tests/cnpy/test_cnpy_smpl.cpp)
-target_link_libraries(test_cnpy_smpl PRIVATE cnpy Torch::Torch)
+target_include_directories(test_cnpy_smpl PUBLIC include/model)
+target_link_directories(test_cnpy_smpl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/cnpy/include)
+target_link_libraries(test_cnpy_smpl PRIVATE cnpy ${TORCH_LIBRARIES})
 
 
 # The following code block is suggested to be used on Windows.

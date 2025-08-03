@@ -2,7 +2,6 @@
 #include <memory>
 
 #define DEBUG false
-
 namespace smplx {
 
 constexpr int SMPL::SHAPE_SPACE_DIM;
