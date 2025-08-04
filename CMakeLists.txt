@@ -27,11 +27,16 @@ target_compile_features(smplx PUBLIC cxx_std_17)
 
 
 
-
 # ---- Benchmark Executable ----
 add_executable(benchmark benchmark.cpp)
 target_include_directories(benchmark PUBLIC include/smplx)
 target_link_libraries(benchmark PRIVATE smplx)
+
+# ---- Fitting Executable ----
+add_subdirectory(thirdparty/chamferdist)
+add_executable(fitting fitting.cpp)
+target_include_directories(fitting PUBLIC include/smplx thirdparty/chamferdist)
+target_link_libraries(fitting PRIVATE smplx chamferdist)
 
 # ---- Test Executable ----
 if(${COMPILE_TESTS})
@@ -39,7 +44,6 @@ if(${COMPILE_TESTS})
     target_include_directories(test_cnpy_smplx PUBLIC include/smplx)
     target_link_libraries(test_cnpy_smplx PRIVATE smplx)
 
-    add_subdirectory(thirdparty/chamferdist)
     add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
     target_include_directories(test_chamferdist PUBLIC thirdparty/chamferdist)
     target_link_libraries(test_chamferdist PRIVATE chamferdist)

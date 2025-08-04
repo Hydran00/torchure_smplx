@@ -90,12 +90,15 @@ This will produce `.npz` files compatible with the C++ implementation.
 ### 6. Run the benchmark
 
 ```bash
-./benchmark <path-to-converted-smplx-model.npz>
+./benchmark <path-to-converted-smpl-model.npz>
 ```
 
 This runs the model and outputs a mesh for a single forward pass. Performance on GPU can reach ~1000 FPS depending on hardware.
 
-
+### 7. Test the fitting with C++ Chamfer Distance implementation
+```
+./fitting <path-to-converted-smpl-model.npz>
+```
 ---
 
 ## 🧠 Notes

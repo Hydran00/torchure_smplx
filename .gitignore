@@ -21,3 +21,4 @@ build/
 data/models/smpl/*
 data/models/smplx/*
 data/models/smplh/*
+smpl/
