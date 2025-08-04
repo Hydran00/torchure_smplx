@@ -8,7 +8,7 @@ message(STATUS "Torch_DIR is set to: ${Torch_DIR}")
 
 find_package(Torch REQUIRED)
 find_package(ZLIB REQUIRED)
-# add_subdirectory(thirdparty/cnpy)
+
 
 # ---- SMPLX Library (Shared or Static) ----
 set(SMPLX_SOURCES
@@ -38,4 +38,9 @@ if(${COMPILE_TESTS})
     add_executable(test_cnpy_smplx tests/cnpy/test_cnpy_smplx.cpp)
     target_include_directories(test_cnpy_smplx PUBLIC include/smplx)
     target_link_libraries(test_cnpy_smplx PRIVATE smplx)
+
+    add_subdirectory(thirdparty/chamferdist)
+    add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
+    target_include_directories(test_chamferdist PUBLIC thirdparty/chamferdist)
+    target_link_libraries(test_chamferdist PRIVATE chamferdist)
 endif()
