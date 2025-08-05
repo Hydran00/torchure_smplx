@@ -1,6 +1,25 @@
-# torchure_smplx
+<h1 align="center">torchure_smplx</h1>
+<p align="center">
+  <img src="assets/logo.png" alt="torchure_smplx logo" height="150"/>
+</p>
 
-A high-performance C++ implementation of the [SMPL](https://smpl.is.tue.mpg.de/), SMPL-H, and SMPL-X body models using [LibTorch](https://pytorch.org/cppdocs/). Optimized for GPU execution, capable of running up to **1000 inferences per second**.
+A high-performance C++ implementation of the [SMPL](https://smpl.is.tue.mpg.de/), SMPL-H, and SMPL-X body models using [LibTorch](https://pytorch.org/cppdocs/). Optimized for GPU execution, capable of running up to **1000 inferences per second**. This implementation is a refined and improved version of [smpl-cpp](https://github.com/Arktische/smpl-cpp).
+
+<table align="center">
+<tr>
+<td><b>Fast Fitting </br>(predicting betas) </b></td>
+<td><b>Fast Fitting </br>(predicting betas and pose)</b></td>
+</tr>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_betas.gif" alt="Fast Fitting Betas" width="230">
+</td>
+<td>
+<img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_pose_betas.gif" alt="Fast Fitting Betas and Pose" width="200">
+</td>
+</tr>
+</table>
+
 
 ---
 
@@ -43,6 +62,7 @@ First, determine your LibTorch path (if installed via Python):
 ```bash
 python -c "import torch; print(torch.utils.cmake_prefix_path)"
 ```
+
 
 Then configure and build:
 
