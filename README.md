@@ -135,6 +135,17 @@ This runs the model and outputs a mesh for a single forward pass. Performance on
 ```
 This example will also open a Open3D window to visualize the fitting process if Open3D was available during the building process.
 
+### 🔄 Including in your project
+Including torchure_smplx in your project is straightforward with cmake, you can take a look at the [`minimal_cmake_example`](https://github.com/Hydran00/torchure_smplx/tree/main/samples/minimal_cmake_example) for a minimal example of how to include the library in your project.
+```cmake
+...
+find_package(torchure_smplx REQUIRED)
+find_package(Torch REQUIRED)
+...
+add_executable(your_beautiful_project main.cpp)
+...
+target_link_libraries(your_beautiful_project PRIVATE torchure_smplx::smplx)
+```
 ---
 
 ## 📜 License
