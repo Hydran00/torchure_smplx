@@ -41,8 +41,14 @@ int main() {
     std::cout << "Target Point Cloud (p2):\n" << p2 << "\n\n";
 
     ChamferDistance chamfer;
+    auto start_time = std::chrono::high_resolution_clock::now();
     torch::Tensor dist = chamfer.forward(p1, p2, /*bidirectional=*/true);
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        end_time - start_time);
 
+    std::cout << "Time taken for Chamfer Distance computation: "
+              << duration.count() << " milliseconds\n";
     std::cout << "Chamfer Distance: " << dist.item<float>() << std::endl;
 
     return 0;

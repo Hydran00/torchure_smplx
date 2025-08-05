@@ -1,5 +1,6 @@
 import torch
 from chamferdist import ChamferDistance
+import time
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -49,6 +50,10 @@ print("\nTarget Point Cloud (p2):\n", p2)
 
 # Create ChamferDistance instance
 chamfer = ChamferDistance()
+start = time.time()
 dist = chamfer(p1, p2, bidirectional=True)
+end = time.time()
+duration = end - start
+print("\nTime taken for Chamfer Distance computation:", duration, "seconds")
 
 print("\nChamfer Distance:", dist.item())

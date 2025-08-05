@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(chamferdist LANGUAGES CXX)
 
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
 # Detect Torch
 find_package(Torch REQUIRED)
 find_package(CUDA QUIET)
@@ -35,7 +36,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 # Compile options
 target_compile_options(${PROJECT_NAME} PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-O3>
-    $<$<COMPILE_LANGUAGE:CUDA>:--expt-relaxed-constexpr>
+    $<$<COMPILE_LANGUAGE:CUDA>:--expt-relaxed-constexpr -O3 --use_fast_math>
 )
 
 # Include paths

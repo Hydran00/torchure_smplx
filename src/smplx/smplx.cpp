@@ -96,9 +96,6 @@ auto SMPL::construct(const char *model_path) -> void {
         }
 
         J_regressor_ = load_required_tensor("J_regressor", torch::kFloat64);
-        std::cout << "J_regressor shape: " << J_regressor_.sizes() << "\n";
-        std::cout << "J_regressor[0][830]: "
-                  << J_regressor_[0][830].item<double>() << "\n";
 
         posedirs_ = load_required_tensor("posedirs", torch::kFloat64);
         posedirs_ = posedirs_.reshape({-1, posedirs_.size(2)})
@@ -142,6 +139,7 @@ auto SMPL::construct(const char *model_path) -> void {
                   << std::endl;
         throw; // rethrow for upstream handling
     }
+    std::cout << "SMPL model construction completed." << std::endl;
 }
 
 auto SMPL::forward_impl() -> SMPLOutput {
