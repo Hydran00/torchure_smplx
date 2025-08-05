@@ -103,10 +103,6 @@ make
 # add this line to on top of CMakeLists.txt
 set(Torch_DIR "<torch cmake prefix path>")
 ```
----
-
-
-Make sure your LibTorch download matches your CUDA version.
 
 ---
 
@@ -137,7 +133,6 @@ This runs the model and outputs a mesh for a single forward pass. Performance on
 ```
 ./fitting <path-to-converted-smpl-model.npz>
 ```
-
 This example will also open a Open3D window to visualize the fitting process if Open3D was available during the building process.
 
 ---
