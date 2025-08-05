@@ -87,9 +87,11 @@ int main(int argc, char *argv[]) {
 
     auto output =
         smpl.forward(smplx::betas(betas), smplx::global_orient(global_orient),
-                     smplx::body_pose(body_pose), smplx::transl(transl));
+                     smplx::body_pose(body_pose), smplx::transl(transl),
+                     smplx::return_verts(true));
 
     auto faces = smpl.faces();
-    save_obj("smpl_mesh.obj", output.vertices.value().squeeze(0), faces);
+    auto vertices = output.vertices.value().squeeze(0); // (V, 3)
+    save_obj("smpl_mesh.obj", vertices, faces);
     return 0;
 }

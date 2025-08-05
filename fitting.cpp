@@ -117,7 +117,8 @@ int main(int argc, char *argv[]) {
     auto transl = torch::zeros({batch_size, 3}, torch::kFloat64).to(device);
     auto target_output = smpl.forward(
         smplx::betas(betas_target), smplx::global_orient(global_orient),
-        smplx::body_pose(body_pose_target), smplx::transl(transl));
+        smplx::body_pose(body_pose_target), smplx::transl(transl),
+        smplx::return_verts(true));
     auto vertices_target = target_output.vertices.value(); // (1, V, 3)
     save_obj("target.obj", vertices_target.squeeze(0).cpu(), faces.cpu());
     std::cout << "Generated target output" << std::endl;
@@ -131,7 +132,8 @@ int main(int argc, char *argv[]) {
                                   .set_requires_grad(true);
     auto output_pred =
         smpl.forward(smplx::betas(betas), smplx::global_orient(global_orient),
-                     smplx::body_pose(body_pose), smplx::transl(transl));
+                     smplx::body_pose(body_pose), smplx::transl(transl),
+                     smplx::return_verts(true));
     auto vertices_pred = output_pred.vertices.value(); // (1, V, 3)
 
     torch::optim::Adam optimizer({betas, body_pose},
@@ -167,7 +169,8 @@ int main(int argc, char *argv[]) {
 
         auto output = smpl.forward(
             smplx::betas(betas), smplx::global_orient(global_orient),
-            smplx::body_pose(body_pose), smplx::transl(transl));
+            smplx::body_pose(body_pose), smplx::transl(transl),
+            smplx::return_verts(true));
 
         auto vertices_pred = output.vertices.value(); // (1, V, 3)
 
@@ -202,7 +205,8 @@ int main(int argc, char *argv[]) {
 
     auto final_output = smpl.forward(
         smplx::betas(betas.detach()), smplx::global_orient(global_orient),
-        smplx::body_pose(body_pose), smplx::transl(transl));
+        smplx::body_pose(body_pose), smplx::transl(transl),
+        smplx::return_verts(true));
 
     auto final_vertices = final_output.vertices.value();
     save_obj("predicted.obj", final_vertices.squeeze(0).cpu(), faces.cpu());

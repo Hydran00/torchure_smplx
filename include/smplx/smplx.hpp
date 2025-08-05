@@ -32,7 +32,7 @@ struct option {
     std::optional<std::string> kid_template_path{std::nullopt};
 
     bool pose2rot = true;
-    bool return_verts;
+    bool return_verts = false;
     bool return_full_pose;
 };
 } // namespace internal

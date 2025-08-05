@@ -23,7 +23,7 @@ bool shapeMatches(const torch::Tensor &tensor,
 }
 
 int main() {
-    std::string filename = "smpl_male.npz";
+    std::string filename = "SMPL_MALE.npz";
     cnpy::npz_t npz_file = cnpy::npz_load(filename);
     std::unordered_map<std::string, torch::Tensor> tensors;
 
