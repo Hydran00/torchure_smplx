@@ -6,12 +6,6 @@ set(USE_OPEN3D OFF CACHE BOOL "Build with Open3D support")
 add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 
 find_package(Open3D QUIET)
-message(STATUS "=== Open3D Debug Info ===")
-message(STATUS "Open3D_FOUND: ${Open3D_FOUND}")
-message(STATUS "Open3D_VERSION: ${Open3D_VERSION}")
-message(STATUS "Open3D_DIR: ${Open3D_DIR}")
-message(STATUS "Open3D_LIBRARIES: '${Open3D_LIBRARIES}'")
-message(STATUS "Open3D_INCLUDE_DIRS: '${Open3D_INCLUDE_DIRS}'")
 
 # Check if target exists
 if(TARGET Open3D::Open3D)
@@ -24,19 +18,6 @@ endif()
 message(STATUS "========================")
 
 find_package(Torch REQUIRED)
-
-# Torch
-message(STATUS "=== Torch Debug Info ===")
-message(STATUS "Torch_DIR is set to: ${Torch_DIR}")
-if(NOT EXISTS "${Torch_DIR}/TorchConfig.cmake")
-    message(FATAL_ERROR "TorchConfig.cmake not found in ${Torch_DIR}. Please set Torch_DIR correctly.")
-endif()
-message(STATUS "TorchConfig.cmake found at: ${Torch_DIR}/TorchConfig.cmake")
-message(STATUS "Torch_LIBRARIES: ${TORCH_LIBRARIES}")
-message(STATUS "Torch_INCLUDE_DIRS: ${TORCH_INCLUDE_DIRS}")
-message(STATUS "========================")
-
-
 find_package(ZLIB REQUIRED)
 
 # Open3D
@@ -102,12 +83,12 @@ endif()
 
 
 # ---- Test Executable ----
-# if(${COMPILE_TESTS})
-#     add_executable(test_cnpy_smplx tests/cnpy/test_cnpy_smplx.cpp)
-#     target_include_directories(test_cnpy_smplx PUBLIC include/smplx)
-#     target_link_libraries(test_cnpy_smplx PRIVATE smplx)
+if(${COMPILE_TESTS})
+    add_executable(test_cnpy_smplx tests/cnpy/test_cnpy_smplx.cpp)
+    target_include_directories(test_cnpy_smplx PUBLIC include/smplx)
+    target_link_libraries(test_cnpy_smplx PRIVATE smplx)
 
-#     add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
-#     target_include_directories(test_chamferdist PUBLIC thirdparty/chamferdist)
-#     target_link_libraries(test_chamferdist PRIVATE chamferdist)
-# endif()
+    add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
+    target_include_directories(test_chamferdist PUBLIC thirdparty/chamferdist)
+    target_link_libraries(test_chamferdist PRIVATE chamferdist)
+endif()
