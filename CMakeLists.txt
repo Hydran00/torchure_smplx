@@ -20,31 +20,6 @@ message(STATUS "========================")
 find_package(Torch REQUIRED)
 find_package(ZLIB REQUIRED)
 
-# Open3D
-# if(USE_OPEN3D)
-#     if(Open3D_FOUND)
-#         message(STATUS "Open3D found!")
-#     else()
-#         # check if linux
-#         if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-#             # If Open3D is not found, download it using FetchContent
-#             message(STATUS "Open3D not found. Downloading v0.18.0 ...")
-#             include(FetchContent)
-#             FetchContent_Declare(
-#                 open3d
-#                 URL https://github.com/isl-org/Open3D/releases/download/v0.18.0/open3d-devel-linux-x86_64-cxx11-abi-0.18.0.tar.xz
-#             )
-#             FetchContent_GetProperties(open3d)
-#             if(NOT open3d_POPULATED)
-#                 FetchContent_Populate(open3d)
-#             endif()
-#             find_package(Open3D REQUIRED HINTS ${open3d_SOURCE_DIR})
-#             message(STATUS "Source dir: ${open3d_SOURCE_DIR}")
-#         endif()
-#     endif()
-# endif()
-
-
 # ---- SMPLX Library (Shared or Static) ----
 set(SMPLX_SOURCES
     src/smplx/smplx.cpp
@@ -60,16 +35,14 @@ target_include_directories(smplx PUBLIC include/smplx thirdparty/cnpy)
 target_link_libraries(smplx PUBLIC ${TORCH_LIBRARIES} ${ZLIB_LIBRARIES})
 # target_compile_features(smplx PUBLIC cxx_std_17)
 
-
-
 # ---- Benchmark Executable ----
-add_executable(benchmark benchmark.cpp)
+add_executable(benchmark samples/benchmark.cpp)
 target_include_directories(benchmark PUBLIC include/smplx)
 target_link_libraries(benchmark PRIVATE smplx)
 
 # ---- Fitting Executable ----
 add_subdirectory(thirdparty/chamferdist)
-add_executable(fitting fitting.cpp)
+add_executable(fitting samples/fitting.cpp)
 target_include_directories(fitting PUBLIC include/smplx thirdparty/chamferdist)
 
 # Link everything EXCEPT Open3D first

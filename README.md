@@ -3,22 +3,22 @@
   <img src="assets/logo.png" alt="torchure_smplx logo" height="150"/>
 </p>
 
-A high-performance C++ implementation of the [SMPL](https://smpl.is.tue.mpg.de/), SMPL-H, and SMPL-X body models using [LibTorch](https://pytorch.org/cppdocs/). Optimized for GPU execution, capable of running up to **1000 inferences per second**. 
+A high-performance C++ implementation of the [SMPL](https://smpl.is.tue.mpg.de/), SMPL-H, and SMPL-X body models using [LibTorch](https://pytorch.org/cppdocs/). Optimized for GPU execution, capable of running up to **1000 inferences per second** to torture your model in real-time! 😎 
 This implementation is a refined and improved version of [smpl-cpp](https://github.com/Arktische/smpl-cpp). It also includes a Torch Chamfer Distance implementation in and a fitting example that can be used to fit the SMPL model to point clouds as well as a Visualization example using Open3D.
 
 <table align="center">
-<tr>
-<td><b>Fast Fitting </br>(predicting betas) </b></td>
-<td><b>Fast Fitting </br>(predicting betas and pose)</b></td>
-</tr>
-<tr>
-<td>
-<img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_betas.gif" alt="Fast Fitting Betas" width="230">
-</td>
-<td>
-<img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_pose_betas.gif" alt="Fast Fitting Betas and Pose" width="200">
-</td>
-</tr>
+  <tr>
+    <td><b>Fast Fitting </br>(predicting betas) </b></td>
+    <td><b>Fast Fitting </br>(predicting betas and pose)</b></td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_betas.gif" alt="Fast Fitting Betas" width="230">
+    </td>
+    <td>
+      <img src="https://raw.githubusercontent.com/hydran00/torchure_smplx/main/assets/fast_fitting_pose_betas.gif" alt="Fast Fitting Betas and Pose" width="200">
+    </td>
+  </tr>
 </table>
 
 
@@ -111,7 +111,7 @@ set(Torch_DIR "<torch cmake prefix path>")
 This project uses `.npz` format for loading SMPL/SMPL-X models in C++. Convert the official `.pkl` models using the included Python script:
 
 ```bash
-python3 pkl2npz.py \
+python3 scripts/pkl2npz.py \
   smpl/models/basicModel_f_lbs_10_207_0_v1.0.0.pkl \
   smpl/models/basicModel_m_lbs_10_207_0_v1.0.0.pkl
 ```
