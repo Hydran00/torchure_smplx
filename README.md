@@ -1,4 +1,9 @@
 <h1 align="center">torchure_smplx</h1>
+
+<p align="center">
+  <a href="https://github.com/Hydran00/torchure_smplx/actions/workflows/libtorch_cpu.yml"><img src="https://github.com/Hydran00/torchure_smplx/actions/workflows/libtorch_cpu.yml/badge.svg" alt="CI - LibTorch CPU + Open3D"></a> <a href="https://github.com/Hydran00/torchure_smplx/actions/workflows/libtorch_cpu_open3d.yml"><img src="https://github.com/Hydran00/torchure_smplx/actions/workflows/libtorch_cpu_open3d.yml/badge.svg" alt="CI - LibTorch CPU + Open3D"></a>
+</p>
+
 <p align="center">
   <img src="assets/logo.png" alt="torchure_smplx logo" height="150"/>
 </p>
