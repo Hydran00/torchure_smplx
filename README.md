@@ -73,7 +73,7 @@ Then determine your Torch cmake path:
 python -c "import torch; print(torch.utils.cmake_prefix_path)"
 ```
 #### LibTorch users (recommended)
-Download the C++ version of LibTorch from [PyTorch's official site](https://pytorch.org/get-started/locally/) and extract it. Make sure to choose the version that matches your system architecture and CUDA version (if applicable). You Torch cmake path should look like this:
+Download the C++ version of LibTorch from [PyTorch's official site](https://pytorch.org/get-started/locally/) and extract it. Make sure to choose the version that matches your system architecture and CUDA version (if applicable). Your Torch cmake path should look like this:
 
 ```bash
 /path/to/libtorch/share/cmake/Torch

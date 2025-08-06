@@ -8,6 +8,7 @@ message(STATUS "Open3D support: ${USE_OPEN3D}")
 add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 
 find_package(Torch REQUIRED)
+message(STATUS "Found Torch in path: ${Torch_DIR}")
 find_package(ZLIB REQUIRED)
 
 # ---- SMPLX Library ----
@@ -50,30 +51,35 @@ add_executable(fitting samples/fitting.cpp)
 target_link_libraries(fitting PRIVATE smplx chamferdist)
 if(USE_OPEN3D)
     find_package(Open3D REQUIRED)
-    message(STATUS "Open3D dir: ${Open3D_DIR}")
-    target_compile_definitions(fitting PRIVATE USE_OPEN3D)
-    target_link_libraries(fitting PRIVATE Open3D::Open3D)
-endif()
+    if(NOT Open3D_FOUND)
+        message(WARNING "Open3D not found. Please install Open3D or disable USE_OPEN3D.")
+        set(USE_OPEN3D OFF)
+    else()
+        message(STATUS "Found Open3D: ${Open3D_VERSION}")
+        message(STATUS "Open3D dir: ${Open3D_DIR}")
+        target_compile_definitions(fitting PRIVATE USE_OPEN3D)
+        target_link_libraries(fitting PRIVATE Open3D::Open3D)
+    endif()
 
-# ---- Tests ----
-if(BUILD_TESTS)
-    add_executable(test_cnpy_smplx tests/cnpy/test_cnpy_smplx.cpp)
-    target_link_libraries(test_cnpy_smplx PRIVATE smplx)
-    add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
-    target_link_libraries(test_chamferdist PRIVATE chamferdist)
-endif()
+    # ---- Tests ----
+    if(BUILD_TESTS)
+        add_executable(test_cnpy_smplx tests/cnpy/test_cnpy_smplx.cpp)
+        target_link_libraries(test_cnpy_smplx PRIVATE smplx)
+        add_executable(test_chamferdist tests/chamferdist/test_chamfer.cpp)
+        target_link_libraries(test_chamferdist PRIVATE chamferdist)
+    endif()
 
 
-include(CMakePackageConfigHelpers)
+    include(CMakePackageConfigHelpers)
 
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/torchure_smplxConfigVersion.cmake"
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY SameMajorVersion
-)
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/torchure_smplxConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+    )
 
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/torchure_smplxConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/torchure_smplxConfig.cmake"
-    INSTALL_DESTINATION unused # No install needed
-)
+    configure_package_config_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/torchure_smplxConfig.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/torchure_smplxConfig.cmake"
+        INSTALL_DESTINATION unused # No install needed
+    )
