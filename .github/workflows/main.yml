@@ -1,0 +1,32 @@
+name: CI - LibTorch CPU
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ unzip wget ninja-build zlib1g-dev
+
+    - name: Download LibTorch (CPU version)
+      run: |
+        wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
+        unzip libtorch-cxx11-abi-shared-with-deps-2.7.1+cpu.zip
+
+    - name: Configure with CMake
+      run: |
+        cmake -S . -B build -DCMAKE_PREFIX_PATH=${{ github.workspace }}/libtorch
+
+    - name: Build
+      run: cmake --build build
