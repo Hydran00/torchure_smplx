@@ -61,6 +61,9 @@ if(USE_OPEN3D)
         target_link_libraries(fitting PRIVATE Open3D::Open3D)
     endif()
 endif()
+# Consistency check
+add_executable(consistency_check samples/consistency_check/consistency_check.cpp)
+target_link_libraries(consistency_check PRIVATE smplx)
 
 # ---- Tests ----
 if(BUILD_TESTS)
